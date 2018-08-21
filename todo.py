@@ -26,10 +26,10 @@ class Todo(db.Model):
 
 # 入り口
 @app.route("/")
-def hello():
+def top():
   user_list = User.query.all()
   # return "Hello World"
-  return render_template('showtodo.html', user_list=user_list)
+  return render_template('showtodo.html',title='ユーザー一覧', user_list=user_list)
 
 # ユーザー登録
 @app.route("/add_user", methods=['POST'])
@@ -41,22 +41,41 @@ def add_user():
     db.session.commit()
 
   # ユーザー登録簿は元ページにリダイレクト
-  return redirect(url_for('hello'))
+  return redirect(url_for('top'))
 
 # データ参照
 @app.route("/user/<int:user_id>", methods=['GET'])
 def show_user(user_id):
   target_user = User.query.get(user_id)
 
-  return render_template('show.html', target_user=target_user)
+  return render_template('show.html', title='ユーザー詳細', target_user=target_user)
 
-# 数字を受け取る
+# 数字を受け取る　修正する
 @app.route("/user/<int:user_id>", methods=['POST'])
 def mod_user(user_id):
   # primary keyを利用する getメソッドで対象ユーザーIDを取得
   target_user = User.query.get(user_id)
-
+  # Usernameを取得
   username = request.form.get('username')
+
+  # dataの存在を確認
+  if target_user and username:
+    target_user.username = username
+    db.session.commit()
+
+  return redirect(url_for('top'))
+
+@app.route("/del_user/<int:user_id>", methods=['POST'])
+def del_user(user_id):
+  # primary keyを利用する場合,getメソッドで対象ユーザーIDを取得
+  target_user = User.query.get(user_id)
+
+  if target_user:
+    db.session.delete(target_user)
+    db.session.commit()
+  
+  return redirect(url_for('top'))
+  
 
 if __name__ == '__main__':
   app.run(debug=True)
