@@ -29,7 +29,7 @@ class Todo(db.Model):
 def top():
   user_list = User.query.all()
   # return "Hello World"
-  return render_template('showtodo.html',title='ユーザー一覧', user_list=user_list)
+  return render_template('top.html',title='ユーザー一覧', user_list=user_list)
 
 # ユーザー登録
 @app.route("/add_user", methods=['POST'])
