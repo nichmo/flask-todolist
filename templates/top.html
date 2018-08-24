@@ -31,4 +31,73 @@
     </button>
     <input type="submit" value="Add">
   </form>
+
+  <h2>Todo一覧</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>内容</th>
+        <th>ユーザーID</th>
+      </tr>
+    </thead>
+      {% for todo in todo_list %}
+      <tr>
+        <td>{{ todo.id }}</td>
+        <td>{{ todo.todotext }}</td>
+        <td>{{ todo.user_id }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <form action="{{ url_for('add_todo')}}" method="post"" class="form-inline">
+    <label for="todotext">Todo</label>
+    <input type="text" class="form-control" id="todotext" name="todotext">
+    <input type="text" class="form-control" id="user_id" name="user_id" value="1" disabled>
+    <button type="submit" class="btn btn-primary">
+      <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>追加
+    </button>
+    <input type="submit" value="Add">
+  </form>
+
+
+  <h2>Todo一覧(テスト環境UP済)</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>内容</th>
+        <th>ユーザーID</th>
+      </tr>
+    </thead>
+      {% for todo in todo_list %}
+      <tr>
+        <td>{{ todo.id }}</td>
+        <td>{{ todo.todotext }}</td>
+        <td>{{ todo.user_id }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Todo一覧(本番環境UP済)</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>内容</th>
+        <th>ユーザーID</th>
+      </tr>
+    </thead>
+      {% for todo in todo_list %}
+      <tr>
+        <td>{{ todo.id }}</td>
+        <td>{{ todo.todotext }}</td>
+        <td>{{ todo.user_id }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
 {% endblock %}

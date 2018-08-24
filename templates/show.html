@@ -24,27 +24,15 @@
         </button>
       </div>
     </div>
-    <a href="{{ url_for('top) }}'" class="btn btn-default">
-      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
-    </a>
-    <form action="{{ url_for('del_user', user_id=target_user.id" method="POST" class="text-right">
-      <button type="submit" class="btn btn-danger">
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
-      </button>
-    </form>
-  
-    <!-- <dl class="show_user">
-      <dt>ID</dt>
-      <dd></dd>
-      <dt>Name</dt>
-      <dd><input type="text" size="30" name="username" value="{{ target_user.username }}"></dd>
-    </dl>
-    <input type="submit" value="submit">
   </form>
-  <a href="{{ url_for('hello') }}">Back</a> -->
-
-  <!-- 削除フォーム -->
-  <!-- <form action="{{ url_for('del_user', user_id=target_user.id) }}" class="del-form" method="POST">
-    <input type="submit" value="Delete">
-  </form> -->
+  <a href="{{ url_for('top') }}" class="btn btn-default">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
+  </a>
+  
+  <form action="{{ url_for('del_user', user_id=target_user.id) }}" method="POST" class="text-right">
+    <button type="submit" class="btn btn-danger">
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
+    </button>
+  </form>
+  
 {% endblock %}
