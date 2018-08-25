@@ -38,14 +38,28 @@
       <tr>
         <th>ID</th>
         <th>内容</th>
-        <th>ユーザーID</th>
+        <th>テスト環境</th>
+        <th>本番環境</th>
+        <th></th>
       </tr>
     </thead>
       {% for todo in todo_list %}
       <tr>
         <td>{{ todo.id }}</td>
         <td>{{ todo.todotext }}</td>
-        <td>{{ todo.user_id }}</td>
+        <td>{{ todo.test_url }}</td>
+        <td>{{ todo.product_url }}</td>
+        <!-- <td>{{ todo.user_id }}</td> -->
+        <td>
+          <a href="{{ url_for('phaseup_todo', todo_id=todo.id) }}" class="btn btn-success">
+            <span class="glyphicon plyphicon-search" aria-hidden="true"></span>修正
+          </a>
+        </td>
+        <td>
+          <a href="{{ url_for('phaseup_todo', todo_id=todo.id) }}" class="btn btn-success">
+            <span class="glyphicon plyphicon-search" aria-hidden="true"></span>テスト環境Up
+          </a>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
@@ -53,7 +67,11 @@
   <form action="{{ url_for('add_todo')}}" method="post"" class="form-inline">
     <label for="todotext">Todo</label>
     <input type="text" class="form-control" id="todotext" name="todotext">
-    <input type="text" class="form-control" id="user_id" name="user_id" value="1" disabled>
+    <!-- inputがdisabledだと値を受けとらないので注意 -->
+    <label for="user_id">Use_id</label>
+    <input type="text" class="form-control" id="user_id" name="user_id" value="1">
+    <label for="phase">Phase</label>
+    <input type="text" class="form-control" id="phase" name="phase" value="0">
     <button type="submit" class="btn btn-primary">
       <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>追加
     </button>
@@ -61,43 +79,56 @@
   </form>
 
 
-  <h2>Todo一覧(テスト環境UP済)</h2>
+  <h2>Todo一覧(テスト環境UP済 phase:1)</h2>
   <table class="table">
     <thead>
       <tr>
         <th>ID</th>
         <th>内容</th>
-        <th>ユーザーID</th>
+        <th>テスト環境</th>
+        <th></th>
       </tr>
     </thead>
-      {% for todo in todo_list %}
+      {% for todo in todo_phase1_list %}
       <tr>
         <td>{{ todo.id }}</td>
         <td>{{ todo.todotext }}</td>
-        <td>{{ todo.user_id }}</td>
+        <td>{{ todo.test_url }}</td>
+        <!-- <td>{{ todo.user_id }}</td> -->
+        <td>
+          <a href="{{ url_for('show_todo', todo_id=todo.id) }}" class="btn btn-success">
+            <span class="glyphicon plyphicon-search" aria-hidden="true"></span>再修正
+          </a>
+        </td>
+        <td>
+          <a href="{{ url_for('phaseup_todo', todo_id=todo.id) }}" class="btn btn-success">
+            <span class="glyphicon plyphicon-search" aria-hidden="true"></span>本番環境Up
+          </a>
+        </td>
+
       </tr>
       {% endfor %}
     </tbody>
   </table>
 
-  <h2>Todo一覧(本番環境UP済)</h2>
+  <h2>Todo一覧(本番環境UP済 phase:2)</h2>
   <table class="table">
     <thead>
       <tr>
         <th>ID</th>
         <th>内容</th>
+        <th>本番環境</th>
         <th>ユーザーID</th>
       </tr>
     </thead>
-      {% for todo in todo_list %}
+      {% for todo in todo_phase2_list %}
       <tr>
         <td>{{ todo.id }}</td>
         <td>{{ todo.todotext }}</td>
+        <td>{{ todo.product_url }}</td>
         <td>{{ todo.user_id }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-
-
 {% endblock %}

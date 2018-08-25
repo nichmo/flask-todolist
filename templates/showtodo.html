@@ -1,44 +1,51 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"> -->
-  <title>To Do List sample app</title>
-</head>
-<body>
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a href="{{ url_for('top') }}" class="navbar-brand">
-          Flask + Flask-SQLAlchemy Todolist
-        </a>
+{% extends 'layout.html' %}
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  <form action="{{ url_for('mod_todo', todo_id=target_todo.id) }}" method="post" class="form-horizontal">
+    <div class="form-group">
+      <label for="todo_id" class="col-sm-2 control-label">ID</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="todo_id" value="{{ target_todo.id }}" disabled>
       </div>
     </div>
-  </nav>
+
+    <div class="form-group">
+      <label for="todotext" class="col-sm-2 control-label">Todo内容</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="todotext" name="todotext" value="{{ target_todo.todotext }}">
+      </div>
+      <label for="todotext" class="col-sm-2 control-label">phase</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="phase" name="phase" value="{{ target_todo.phase }}">
+      </div>
+      <label for="test_url" class="col-sm-2 control-label">テスト環境</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="test_url"" name="test_url" value="{{ target_todo.test_url }}">
+      </div>
+      <label for="product_url" class="col-sm-2 control-label">本番環境</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="product_url"" name="product_url" value="{{ target_todo.product_url }}">
+      </div>
+
+    </div>
+    
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button class="btn btn-primary">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
+        </button>
+      </div>
+    </div>
+  </form>
+  <a href="{{ url_for('top') }}" class="btn btn-default">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
+  </a>
   
-
-  <h1>ToDo List</h1>
-  <p>you can register</p>
-  <div class="page">
-    <ul class="users">
-    {% for user in user_list %}
-      <li>
-        <a href="{{ url_for('show_user', user_id=user.id) }}">
-          Detail
-        </a>
-        Hello {{ user.username}}!
-      </li>
-    {% endfor %}
-    </ul>
-
-    <form action="{{ url_for('add_user')}}" method="POST" class="add_user">
-      <label for="username">Name:</label>
-      <input type="text" size="30" id="username" name="username">
-      <input type="submit" value="Add">
-    </form>
-  </div>
-</body>
-</html>
+  <form action="{{ url_for('del_todo', todo_id=target_todo.id) }}" method="POST" class="text-right">
+    <button type="submit" class="btn btn-danger">
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
+    </button>
+  </form>
+  
+{% endblock %}

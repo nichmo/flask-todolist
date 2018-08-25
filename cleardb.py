@@ -11,8 +11,8 @@ db.session.add(user)
 db.session.commit()
 
 # admin Todoの投稿を2件作成
-todo1 = Todo('todotext1', user.id)
-todo2 = Post('todotext2', user.id)
+todo1 = Todo('todotext1', user.id, 0)
+todo2 = Todo('todotext2', user.id, 0)
 db.session.add(todo1)
 db.session.add(todo2)
 db.session.commit()

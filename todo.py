@@ -22,20 +22,27 @@ class Todo(db.Model):
   todotext = db.Column(db.String(890))
   user_id = db.Column(db.Integer)
   phase = db.Column(db.Integer)  #0:未着手 1:テストUP 2:本番環境UP
+  test_url = db.Column(db.String(80))
+  product_url = db.Column(db.String(80))
 
-  def __init__(self, todotext, user_id):
+  def __init__(self, todotext, user_id, phase):
     self.todotext = todotext
     self.user_id = user_id
-    self.phase = 0
+    self.phase = phase
+    self.test_url = ""
+    self.product_url = ""
 
 
 # user 入り口
 @app.route("/")
 def top():
   user_list = User.query.all()
-  todo_list = Todo.query.all()
+  # todo_list = Todo.query.all()
+  todo_list = Todo.query.filter(Todo.phase == 0).order_by(Todo.id.asc()).all()
+  todo_phase1_list = Todo.query.filter(Todo.phase == 1).order_by(Todo.id.desc()).all()
+  todo_phase2_list = Todo.query.filter(Todo.phase == 2).order_by(Todo.id.desc()).all()
   # return "Hello World"
-  return render_template('top.html',title='ユーザー一覧', user_list=user_list, todo_list=todo_list)
+  return render_template('top.html',title='ユーザー一覧', user_list=user_list, todo_list=todo_list, todo_phase1_list=todo_phase1_list, todo_phase2_list=todo_phase2_list)
 
 # todo
 # ユーザー登録 formでデータ取得する
@@ -43,8 +50,10 @@ def top():
 def add_todo():
   todotext = request.form.get('todotext')
   user_id = request.form.get('user_id')
+  phase = request.form.get('phase')
+
   if todotext:
-    todo = Todo(todotext, user_id)
+    todo = Todo(todotext, user_id, phase)
     db.session.add(todo)
     db.session.commit()
 
@@ -66,18 +75,22 @@ def mod_todo(todo_id):
   # todotextを取得
   todotext = request.form.get('todotext')
   phase = request.form.get('phase')
+  test_url = request.form.get('test_url')
+  product_url = request.form.get('product_url')
 
   # dataの存在を確認
   if target_todo and todotext:
     target_todo.todotext = todotext
     target_todo.phase = phase
+    target_todo.test_url = test_url
+    target_todo.product_url = product_url
     db.session.commit()
 
   return redirect(url_for('top'))
 
-
+# todo phaseを+1する
 @app.route("/todo/<int:todo_id>", methods=['POST'])
-def done_todo(todo_id):
+def phaseup_todo(todo_id):
   # primary keyを利用する getメソッドで対象todoIDを取得
   target_todo = Todo.query.get(todo_id)
   # todotextを取得
@@ -91,10 +104,28 @@ def done_todo(todo_id):
 
   return redirect(url_for('top'))  
 
-@app.route("/del_todo/<int:user_id>", methods=['POST'])
+# todo phaseを-1する
+@app.route("/todo/<int:todo_id>", methods=['POST'])
+def phasedown_todo(todo_id):
+  # primary keyを利用する getメソッドで対象todoIDを取得
+  target_todo = Todo.query.get(todo_id)
+  # todotextを取得
+  phase = request.form.get('phase')
+  phase -= 1
+
+  # dataの存在を確認
+  if target_todo:
+    target_todo.phase = phase
+    db.session.commit()
+
+  return redirect(url_for('top'))  
+
+
+# todo削除
+@app.route("/del_todo/<int:todo_id>", methods=['POST'])
 def del_todo(todo_id):
   # primary keyを利用する場合,getメソッドで対象ユーザーIDを取得
-  target_todo = User.query.get(todo_id)
+  target_todo = Todo.query.get(todo_id)
 
   if target_todo:
     db.session.delete(target_todo)
