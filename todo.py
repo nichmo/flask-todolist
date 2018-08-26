@@ -89,7 +89,7 @@ def mod_todo(todo_id):
   return redirect(url_for('top'))
 
 # todo phaseを+1する
-@app.route("/todo/<int:todo_id>", methods=['POST'])
+@app.route("/phaseup_todo", methods=['POST'])
 def phaseup_todo(todo_id):
   # primary keyを利用する getメソッドで対象todoIDを取得
   target_todo = Todo.query.get(todo_id)
@@ -105,7 +105,7 @@ def phaseup_todo(todo_id):
   return redirect(url_for('top'))  
 
 # todo phaseを-1する
-@app.route("/todo/<int:todo_id>", methods=['POST'])
+@app.route("/phasedown_todo/<int:todo_id>", methods=['POST'])
 def phasedown_todo(todo_id):
   # primary keyを利用する getメソッドで対象todoIDを取得
   target_todo = Todo.query.get(todo_id)

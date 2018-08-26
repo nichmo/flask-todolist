@@ -29,7 +29,7 @@
     <button type="submit" class="btn btn-primary">
       <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>追加
     </button>
-    <input type="submit" value="Add">
+    <!-- <input type="submit" value="Add"> -->
   </form>
 
   <h2>Todo一覧</h2>
@@ -51,7 +51,7 @@
         <td>{{ todo.product_url }}</td>
         <!-- <td>{{ todo.user_id }}</td> -->
         <td>
-          <a href="{{ url_for('phaseup_todo', todo_id=todo.id) }}" class="btn btn-success">
+          <a href="{{ url_for('show_todo', todo_id=todo.id) }}" class="btn btn-success">
             <span class="glyphicon plyphicon-search" aria-hidden="true"></span>修正
           </a>
         </td>
@@ -59,6 +59,12 @@
           <a href="{{ url_for('phaseup_todo', todo_id=todo.id) }}" class="btn btn-success">
             <span class="glyphicon plyphicon-search" aria-hidden="true"></span>テスト環境Up
           </a>
+          <!-- <form>
+            <button type="submit" class="btn btn-primary">
+              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>追加
+            </button>
+            <input type="submit" value="Add">
+          </form> -->
         </td>
       </tr>
       {% endfor %}
@@ -75,7 +81,7 @@
     <button type="submit" class="btn btn-primary">
       <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>追加
     </button>
-    <input type="submit" value="Add">
+    <!-- <input type="submit" value="Add"> -->
   </form>
 
 
